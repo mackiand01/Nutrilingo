@@ -33,12 +33,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.carb_Int = new System.Windows.Forms.TextBox();
+            this.fat_Int = new System.Windows.Forms.TextBox();
+            this.protein_Int = new System.Windows.Forms.TextBox();
+            this.alcohol_Int = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.date_Int = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.weeklyStatsBtn = new System.Windows.Forms.Button();
@@ -96,37 +96,33 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // textBox1
+            // carb_Int
             // 
-            this.textBox1.Location = new System.Drawing.Point(188, 89);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(86, 20);
-            this.textBox1.TabIndex = 5;
+            this.carb_Int.Location = new System.Drawing.Point(251, 110);
+            this.carb_Int.Name = "carb_Int";
+            this.carb_Int.Size = new System.Drawing.Size(114, 22);
+            this.carb_Int.TabIndex = 5;
             // 
-            // textBox2
+            // fat_Int
             // 
-            this.textBox2.Location = new System.Drawing.Point(188, 134);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(86, 20);
-            this.textBox2.TabIndex = 6;
+            this.fat_Int.Location = new System.Drawing.Point(251, 165);
+            this.fat_Int.Name = "fat_Int";
+            this.fat_Int.Size = new System.Drawing.Size(114, 22);
+            this.fat_Int.TabIndex = 6;
             // 
-            // textBox3
+            // protein_Int
             // 
-            this.textBox3.Location = new System.Drawing.Point(188, 179);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(86, 20);
-            this.textBox3.TabIndex = 7;
+            this.protein_Int.Location = new System.Drawing.Point(251, 220);
+            this.protein_Int.Name = "protein_Int";
+            this.protein_Int.Size = new System.Drawing.Size(114, 22);
+            this.protein_Int.TabIndex = 7;
             // 
-            // textBox4
+            // alcohol_Int
             // 
-            this.textBox4.Location = new System.Drawing.Point(188, 223);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(86, 20);
-            this.textBox4.TabIndex = 8;
+            this.alcohol_Int.Location = new System.Drawing.Point(251, 275);
+            this.alcohol_Int.Name = "alcohol_Int";
+            this.alcohol_Int.Size = new System.Drawing.Size(114, 22);
+            this.alcohol_Int.TabIndex = 8;
             // 
             // label5
             // 
@@ -138,13 +134,12 @@
             this.label5.TabIndex = 9;
             this.label5.Text = "Date (mmddyyyy)";
             // 
-            // textBox5
+            // date_Int
             // 
-            this.textBox5.Location = new System.Drawing.Point(188, 268);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(86, 20);
-            this.textBox5.TabIndex = 10;
+            this.date_Int.Location = new System.Drawing.Point(251, 330);
+            this.date_Int.Name = "date_Int";
+            this.date_Int.Size = new System.Drawing.Size(114, 22);
+            this.date_Int.TabIndex = 10;
             // 
             // label6
             // 
@@ -198,12 +193,12 @@
             this.Controls.Add(this.weeklyStatsBtn);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.date_Int);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.alcohol_Int);
+            this.Controls.Add(this.protein_Int);
+            this.Controls.Add(this.fat_Int);
+            this.Controls.Add(this.carb_Int);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -224,12 +219,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox carb_Int;
+        private System.Windows.Forms.TextBox fat_Int;
+        private System.Windows.Forms.TextBox protein_Int;
+        private System.Windows.Forms.TextBox alcohol_Int;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox date_Int;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button weeklyStatsBtn;
