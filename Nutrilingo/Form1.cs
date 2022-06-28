@@ -26,5 +26,12 @@ namespace Nutrilingo
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form2 MenuForm = new Form2();
+            this.Hide();
+            MenuForm.Show();
+        }
     }
 }
