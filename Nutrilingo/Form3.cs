@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace Nutrilingo
 {
@@ -23,17 +25,20 @@ namespace Nutrilingo
             statisticsWeeklyBindingSource.DataSource = new List<StatisticsWeekly>();
         }
 
+        /* 
+         * This method will be for retreiving the data once it is working.
+         * 
         private void RetreiveData(string carbs, string fats, string proteins, string alcohols, string date)
         {
             string connectionString = "Data Source=nutritech-appdb.caj8fvo1oxkf.us-east-2.rds.amazonaws.com,1433;Initial Catalog=Nutrilingo_App;User ID=Nutri_Admin";
             SqlConnection connection = new SqlConnection(@connectionString);
-            string query = $"INSERT INTO MacroNutrient_DailyEntries (CarbContent, FatContent, ProteinContent, AlcoholContent, UserDate) VALUES({carbs},{fats},{proteins},{alcohols},{date})";
+            string query = $"SELECT * FROM MacroNutrient_DailyEntries (CarbContent, FatContent, ProteinContent, AlcoholContent, UserDate) VALUES({carbs},{fats},{proteins},{alcohols},{date})";
             SqlCommand command = new SqlCommand(query, connection);
             try
             {
                 connection.Open();
                 command.ExecuteNonQuery();
-                MessageBox.Show("Data Inserted Successfully");
+                MessageBox.Show("Data Retrieved Successfully");
             }
             catch (SqlException ex)
             {
@@ -44,6 +49,7 @@ namespace Nutrilingo
                 connection.Close();
             }
         }
+        */
 
         private void weeklyBtn_Click(object sender, EventArgs e)
         {
