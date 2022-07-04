@@ -20,37 +20,45 @@ namespace Nutrilingo
 
         }
 
-        private void InsertData(string carbs, string fats, string proteins, string alcohols, string date)
-        {
-            string connectionString = "Data Source=nutritech-appdb.caj8fvo1oxkf.us-east-2.rds.amazonaws.com,1433;Initial Catalog=Nutrilingo_App;User ID=Nutri_Admin";
-            SqlConnection connection = new SqlConnection(@connectionString);
-            string query = $"INSERT INTO MacroNutrient_DailyEntries (CarbContent, FatContent, ProteinContent, AlcoholContent, UserDate) VALUES({carbs},{fats},{proteins},{alcohols},{date})";
-            SqlCommand command = new SqlCommand(query, connection);
-            try
-            {
-                connection.Open();
-                command.ExecuteNonQuery();
-                MessageBox.Show("Data Inserted Successfully");
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Error Generated. Details: " + ex.ToString());
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
+        //private void InsertData(string carbs, string fats, string proteins, string alcohols, string date)
+        //{
+
+
+        //    string connectionString = "Data Source=nutritech-appdb.caj8fvo1oxkf.us-east-2.rds.amazonaws.com,1433;Initial Catalog=Nutrilingo_App;User ID=Nutri_Admin;Password=Duo.488dlal";
+            
+        //    SqlConnection connection = new SqlConnection(@connectionString);
+        //    string query = $"INSERT INTO MacroNutrient_DailyEntries (CarbContent, FatContent, ProteinContent, AlcoholContent, UserDate) VALUES({carbs},{fats},{proteins},{alcohols},{date})";
+        //    SqlCommand command = new SqlCommand(query, connection);
+        //    try
+        //    {
+        //        connection.Open();
+        //        command.ExecuteNonQuery();
+        //        MessageBox.Show("Data Inserted Successfully");
+        //    }
+        //    catch (SqlException ex)
+        //    {
+        //        MessageBox.Show("Error Generated. Details: " + ex.ToString());
+        //    }
+        //    finally
+        //    {
+        //        connection.Close();
+        //    }
+        //}
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string UserID = "1";
             string carbs = carb_Int.Text.ToString();
             string fats = fat_Int.Text.ToString();
             string proteins = protein_Int.Text.ToString();
             string alcohols = alcohol_Int.Text.ToString();
             string date = date_Int.Text.ToString();
 
-            InsertData(carbs, fats, proteins, alcohols, date);
+
+            UserInput_BusLogic Entry_obj;
+            Entry_obj = new UserInput_BusLogic();
+
+            Entry_obj.DailyEntry_InsertData(UserID, carbs, fats, proteins, alcohols, date);
 
             carb_Int.Clear();
             fat_Int.Clear();
