@@ -59,13 +59,6 @@ namespace Nutrilingo
             date_Int.Clear();
         }
 
-        private void monthlyStatsBtn_Click(object sender, EventArgs e)
-        {
-            Form4 MonthStatsForm = new Form4();
-            this.Hide();
-            MonthStatsForm.Show();
-        }
-
         private void weeklyStatsBtn_Click(object sender, EventArgs e)
         {
             Form3 WeekStatsForm = new Form3();

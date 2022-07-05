@@ -42,7 +42,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.weeklyStatsBtn = new System.Windows.Forms.Button();
-            this.monthlyStatsBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -100,28 +99,28 @@
             // 
             this.carb_Int.Location = new System.Drawing.Point(251, 110);
             this.carb_Int.Name = "carb_Int";
-            this.carb_Int.Size = new System.Drawing.Size(114, 22);
+            this.carb_Int.Size = new System.Drawing.Size(114, 20);
             this.carb_Int.TabIndex = 5;
             // 
             // fat_Int
             // 
             this.fat_Int.Location = new System.Drawing.Point(251, 165);
             this.fat_Int.Name = "fat_Int";
-            this.fat_Int.Size = new System.Drawing.Size(114, 22);
+            this.fat_Int.Size = new System.Drawing.Size(114, 20);
             this.fat_Int.TabIndex = 6;
             // 
             // protein_Int
             // 
             this.protein_Int.Location = new System.Drawing.Point(251, 220);
             this.protein_Int.Name = "protein_Int";
-            this.protein_Int.Size = new System.Drawing.Size(114, 22);
+            this.protein_Int.Size = new System.Drawing.Size(114, 20);
             this.protein_Int.TabIndex = 7;
             // 
             // alcohol_Int
             // 
             this.alcohol_Int.Location = new System.Drawing.Point(251, 275);
             this.alcohol_Int.Name = "alcohol_Int";
-            this.alcohol_Int.Size = new System.Drawing.Size(114, 22);
+            this.alcohol_Int.Size = new System.Drawing.Size(114, 20);
             this.alcohol_Int.TabIndex = 8;
             // 
             // label5
@@ -138,7 +137,7 @@
             // 
             this.date_Int.Location = new System.Drawing.Point(251, 330);
             this.date_Int.Name = "date_Int";
-            this.date_Int.Size = new System.Drawing.Size(114, 22);
+            this.date_Int.Size = new System.Drawing.Size(114, 20);
             this.date_Int.TabIndex = 10;
             // 
             // label6
@@ -164,32 +163,20 @@
             // 
             // weeklyStatsBtn
             // 
-            this.weeklyStatsBtn.Location = new System.Drawing.Point(11, 368);
+            this.weeklyStatsBtn.Location = new System.Drawing.Point(101, 370);
             this.weeklyStatsBtn.Margin = new System.Windows.Forms.Padding(2);
             this.weeklyStatsBtn.Name = "weeklyStatsBtn";
             this.weeklyStatsBtn.Size = new System.Drawing.Size(98, 24);
             this.weeklyStatsBtn.TabIndex = 14;
-            this.weeklyStatsBtn.Text = "See Weekly Stats";
+            this.weeklyStatsBtn.Text = "See Statistics";
             this.weeklyStatsBtn.UseVisualStyleBackColor = true;
             this.weeklyStatsBtn.Click += new System.EventHandler(this.weeklyStatsBtn_Click);
-            // 
-            // monthlyStatsBtn
-            // 
-            this.monthlyStatsBtn.Location = new System.Drawing.Point(177, 368);
-            this.monthlyStatsBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.monthlyStatsBtn.Name = "monthlyStatsBtn";
-            this.monthlyStatsBtn.Size = new System.Drawing.Size(98, 24);
-            this.monthlyStatsBtn.TabIndex = 15;
-            this.monthlyStatsBtn.Text = "See Monthly Stats";
-            this.monthlyStatsBtn.UseVisualStyleBackColor = true;
-            this.monthlyStatsBtn.Click += new System.EventHandler(this.monthlyStatsBtn_Click);
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(286, 449);
-            this.Controls.Add(this.monthlyStatsBtn);
             this.Controls.Add(this.weeklyStatsBtn);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label6);
@@ -228,6 +215,5 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button weeklyStatsBtn;
-        private System.Windows.Forms.Button monthlyStatsBtn;
     }
 }
