@@ -22,7 +22,7 @@ namespace Nutrilingo
 
 
             SqlConnection connection = new SqlConnection(@connectionString);
-            string query = "INSERT INTO MacroNutrient_DailyEntries(UserID, CarbContent, FatContent, ProteinContent, AlcoholContent, UserDate, EntryDate) VALUES (@USE, @CAR, @FAT, @PRO, @ALC, @E_DATE, convert(varchar, GetDate(), 21) );";
+            string query = "INSERT INTO MacroNutrient_DailyEntries(UserID, CarbContent, FatContent, ProteinContent, AlcoholContent, UserDate, convert(varchar,convert(date,EntryDate,101),120) VALUES (@USE, @CAR, @FAT, @PRO, @ALC, @E_DATE, convert(varchar, GetDate(), 21) );";
 
             SqlCommand cmd = new SqlCommand();
 
@@ -55,9 +55,8 @@ namespace Nutrilingo
 
         // BEFORE TESTING
         // !! CHECK IF USERID AND Nutrient_Type STRINGS ARE BEING ADDED TO THE STRING PROPERLY
-        // !! MODIFY SQL CONNECTION OBJECT SO IT RETURNS THE SELECTED VALUES AS AN ARRAY
 
-        public string UserData_Timeframe_DataPull(string UserID, string Time_Period, string[] Nutrient_Type )
+        public Dictionary<string, Dictionary<string, string>> UserData_Timeframe_DataPull(string UserID, string Time_Period, string[] Nutrient_Type )
         {
             
             string Date_furthestOut;
@@ -69,7 +68,7 @@ namespace Nutrilingo
 
             
 
-            string query = "SELECT FROM MacroNutrient_DailyEntries(EntryDate, "
+            string query = "SELECT FROM MacroNutrient_DailyEntries(EntryDate, ";
             
             foreach(string item in Nutrient_Type)
             {
@@ -82,16 +81,12 @@ namespace Nutrilingo
             cmd.Connection = connection;
 
 
-            // !! DATETIME FORMATTING NEEDS TO BE CLEANED TO MATCH ENTRYDATE FORMATTING !!
-            
-            // !! Verify -7 or -6 gets the correct timeframe for a week !!
-
             switch (Time_Period) 
             {
                 case week:
                     
-                    Date_mostRecent = DateTime.Today;
-                    Date_furthestOut = DateTime.Today.AddDays(-7);
+                    Date_mostRecent = DateTime.Today.ToString("yyyy-MM-dd");
+                    Date_furthestOut = DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd");
                     
                     query =+ @") WHERE UserID='{UserID}' EntryDate BETwEEN @TIMEFRAME_oldest AND @TIMEFRAME_newest";
                     cmd.Parameters.AddWithValue("@TIMEFRAME_oldest", Date_furthestOut);
@@ -99,8 +94,8 @@ namespace Nutrilingo
                     break;
                 case month:
 
-                    Date_mostRecent = DateTime.Today;
-                    Date_furthestOut = DateTime.Today.AddMonths(-1);
+                    Date_mostRecent = DateTime.Today.ToString("yyyy-MM-dd");
+                    Date_furthestOut = DateTime.Today.AddMonths(-1).ToString("yyyy-MM-dd");
 
                     query =+ @") WHERE UserID='{UserID}' AND EntryDate BETwEEN @TIMEFRAME_oldest AND @TIMEFRAME_newest";
                     cmd.Parameters.AddWithValue("@TIMEFRAME_oldest", Date_furthestOut);
@@ -114,10 +109,25 @@ namespace Nutrilingo
             cmd.CommandText = query;
             
             try
-            {
+            {  
+                var DblKeyData = new Dictionary<string, Dictionary<string, decimal>>();
+
+                List<string> ConList = new List<string>();
+
                 connection.Open();
-                cmd.ExecuteNonQuery();
+                
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        ReadIntDict((IDataRecord)reader, DblKeyData);
+                    }
+                }
+               
                 MessageBox.Show("Data retrieved successfully.");
+
+                return DblKeyData;
+
             }
             catch (SqlException ex)
             {
@@ -126,6 +136,63 @@ namespace Nutrilingo
             finally
             {
                 connection.Close();
+            }
+
+
+
+            //Customer_names = ConList.ToArray();
+            
+            // Query will return entry id, entry name of nutrient, and array of decimal elements
+
+
+            //setDatabase($"Data Source={ActiveUser_Conn_Const["DS"]};Initial Catalog={ActiveUser_Conn_Const["Database"]};User Id={ActiveUser_Conn_Const["UserName"]};Password={ActiveUser_Conn_Const["Password"]};Integrated Security=False");
+            //SqlDataAdapter da_customers = new SqlDataAdapter(DB_cmd, DBconn_inUse);
+            //da_customers.Fill(DB_Set);
+            //List<string> ConList = new List<string>();
+            //foreach (DataRow row in DB_Set.Tables[0].Rows)
+            //{
+            //    ConList.Add(row[ShowRow].ToString());
+            //}
+            //Customer_names = ConList.ToArray();
+            //Customer_numb = ConList.Count();
+
+            //Planning to return nested dictionaries as output of method
+            //new Dictionary<string, Dictionary<string, string>>
+            //    {
+            //        {
+            //          "01-20-2022",
+            //          new Dictionary<string, decimal>
+            //{
+            //    {"carbs", "1.2"},
+            //    {"fats", "5.0"},
+            //    {"proteins", "2.3"},
+            //    {"alcohols", "2.0"}
+            //      }
+            //  },
+            //{
+            //"01-21-2022",
+            //new Dictionary<string, decimal>
+            //{
+            //    {"carbs", "2.2"},
+            //   {"fats", "4.0"},
+            //    {"proteins", "5.2"},
+            //   {"alcohols", "1.0"}
+            //      }
+            //}
+
+
+        }
+
+        public void ReadIntDict(IDataRecord dataRecord, Dictionary<string, Dictionary<string, decimal>> NestDict)
+        {
+            if (NestDict.ContainsKey(dataRecord[0]))
+            {
+                NestDict[dataRecord[0]].Add(dataRecord[1].ToString(), dataRecord[2]);
+            }
+            else
+            {
+                NestDict.Add(dataRecord[0].ToString(), new Dictionary<string, decimal>());
+                NestDict[dataRecord[0]].Add(dataRecord[1].ToString(), dataRecord[2]);
             }
         }
 
