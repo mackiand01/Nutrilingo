@@ -138,49 +138,6 @@ namespace Nutrilingo
                 connection.Close();
             }
 
-
-
-            //Customer_names = ConList.ToArray();
-            
-            // Query will return entry id, entry name of nutrient, and array of decimal elements
-
-
-            //setDatabase($"Data Source={ActiveUser_Conn_Const["DS"]};Initial Catalog={ActiveUser_Conn_Const["Database"]};User Id={ActiveUser_Conn_Const["UserName"]};Password={ActiveUser_Conn_Const["Password"]};Integrated Security=False");
-            //SqlDataAdapter da_customers = new SqlDataAdapter(DB_cmd, DBconn_inUse);
-            //da_customers.Fill(DB_Set);
-            //List<string> ConList = new List<string>();
-            //foreach (DataRow row in DB_Set.Tables[0].Rows)
-            //{
-            //    ConList.Add(row[ShowRow].ToString());
-            //}
-            //Customer_names = ConList.ToArray();
-            //Customer_numb = ConList.Count();
-
-            //Planning to return nested dictionaries as output of method
-            //new Dictionary<string, Dictionary<string, string>>
-            //    {
-            //        {
-            //          "01-20-2022",
-            //          new Dictionary<string, decimal>
-            //{
-            //    {"carbs", "1.2"},
-            //    {"fats", "5.0"},
-            //    {"proteins", "2.3"},
-            //    {"alcohols", "2.0"}
-            //      }
-            //  },
-            //{
-            //"01-21-2022",
-            //new Dictionary<string, decimal>
-            //{
-            //    {"carbs", "2.2"},
-            //   {"fats", "4.0"},
-            //    {"proteins", "5.2"},
-            //   {"alcohols", "1.0"}
-            //      }
-            //}
-
-
         }
 
         public void ReadIntDict(IDataRecord dataRecord, Dictionary<string, Dictionary<string, decimal>> NestDict)
