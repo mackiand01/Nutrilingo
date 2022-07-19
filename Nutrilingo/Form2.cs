@@ -66,5 +66,13 @@ namespace Nutrilingo
             alcohol_Int.Clear();
             date_Int.Clear();
         }
+
+        private void weeklyStatsBtn_Click(object sender, EventArgs e)
+        {
+            Form3 WeekStatsForm = new Form3();
+            this.Hide();
+            WeekStatsForm.Show();
+        }
+
     }
 }
