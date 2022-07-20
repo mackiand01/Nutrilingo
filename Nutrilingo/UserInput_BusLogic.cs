@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 
 namespace Nutrilingo
@@ -56,7 +58,7 @@ namespace Nutrilingo
         // BEFORE TESTING
         // !! CHECK IF USERID AND Nutrient_Type STRINGS ARE BEING ADDED TO THE STRING PROPERLY
 
-        public Dictionary<string, Dictionary<string, string>> UserData_Timeframe_DataPull(string UserID, string Time_Period, string[] Nutrient_Type )
+        public Dictionary<string, Dictionary<string, decimal>> UserData_Timeframe_DataPull(string UserID, string Time_Period, string[] Nutrient_Type )
         {
             
             string Date_furthestOut;
@@ -72,7 +74,7 @@ namespace Nutrilingo
             
             foreach(string item in Nutrient_Type)
             {
-                query =+ @"{item}, ";
+                query += @"{item}, ";
             }
 
 
@@ -83,26 +85,26 @@ namespace Nutrilingo
 
             switch (Time_Period) 
             {
-                case week:
+                case "week":
                     
                     Date_mostRecent = DateTime.Today.ToString("yyyy-MM-dd");
                     Date_furthestOut = DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd");
                     
-                    query =+ @") WHERE UserID='{UserID}' EntryDate BETwEEN @TIMEFRAME_oldest AND @TIMEFRAME_newest";
+                    query += @") WHERE UserID='{UserID}' EntryDate BETWEEN @TIMEFRAME_oldest AND @TIMEFRAME_newest";
                     cmd.Parameters.AddWithValue("@TIMEFRAME_oldest", Date_furthestOut);
                     cmd.Parameters.AddWithValue("@TIMEFRAME_newest", Date_mostRecent);
                     break;
-                case month:
+                case "month":
 
                     Date_mostRecent = DateTime.Today.ToString("yyyy-MM-dd");
                     Date_furthestOut = DateTime.Today.AddMonths(-1).ToString("yyyy-MM-dd");
 
-                    query =+ @") WHERE UserID='{UserID}' AND EntryDate BETwEEN @TIMEFRAME_oldest AND @TIMEFRAME_newest";
+                    query += @") WHERE UserID='{UserID}' AND EntryDate BETwEEN @TIMEFRAME_oldest AND @TIMEFRAME_newest";
                     cmd.Parameters.AddWithValue("@TIMEFRAME_oldest", Date_furthestOut);
                     cmd.Parameters.AddWithValue("@TIMEFRAME_newest", Date_mostRecent);
                     break;
-                case user_start:
-                    query =+ @") WHERE UserID='{UserID}';"
+                case "user_start":
+                    query += @") WHERE UserID='{UserID}';";
                     break;
             }
 
@@ -112,7 +114,8 @@ namespace Nutrilingo
             {  
                 var DblKeyData = new Dictionary<string, Dictionary<string, decimal>>();
 
-                List<string> ConList = new List<string>();
+                //Appears to be a unused list I added, not sure why
+                //List<string> ConList = new List<string>();
 
                 connection.Open();
                 
@@ -132,6 +135,7 @@ namespace Nutrilingo
             catch (SqlException ex)
             {
                 MessageBox.Show("Error Generated. Details: " + ex.ToString());
+                return null;
             }
             finally
             {
@@ -142,14 +146,17 @@ namespace Nutrilingo
 
         public void ReadIntDict(IDataRecord dataRecord, Dictionary<string, Dictionary<string, decimal>> NestDict)
         {
-            if (NestDict.ContainsKey(dataRecord[0]))
+                
+
+            if (NestDict.ContainsKey(dataRecord[0].ToString()))
             {
-                NestDict[dataRecord[0]].Add(dataRecord[1].ToString(), dataRecord[2]);
+
+                NestDict[dataRecord[0].ToString()].Add(dataRecord[1].ToString(), dataRecord.GetDecimal(2));
             }
             else
             {
                 NestDict.Add(dataRecord[0].ToString(), new Dictionary<string, decimal>());
-                NestDict[dataRecord[0]].Add(dataRecord[1].ToString(), dataRecord[2]);
+                NestDict[dataRecord[0].ToString()].Add(dataRecord[1].ToString(), dataRecord.GetDecimal(2));
             }
         }
 
