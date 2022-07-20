@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 
 namespace Nutrilingo
@@ -56,7 +58,7 @@ namespace Nutrilingo
         // BEFORE TESTING
         // !! CHECK IF USERID AND Nutrient_Type STRINGS ARE BEING ADDED TO THE STRING PROPERLY
 
-        public Dictionary<string, Dictionary<string, string>> UserData_Timeframe_DataPull(string UserID, string Time_Period, string[] Nutrient_Type )
+        public Dictionary<string, Dictionary<string, decimal>> UserData_Timeframe_DataPull(string UserID, string Time_Period, string[] Nutrient_Type )
         {
             
             string Date_furthestOut;
@@ -72,7 +74,7 @@ namespace Nutrilingo
             
             foreach(string item in Nutrient_Type)
             {
-                query =+ @"{item}, ";
+                query += @"{item}, ";
             }
 
 
@@ -83,26 +85,28 @@ namespace Nutrilingo
 
             switch (Time_Period) 
             {
-                case week:
+                case "week":
                     
                     Date_mostRecent = DateTime.Today.ToString("yyyy-MM-dd");
                     Date_furthestOut = DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd");
                     
-                    query =+ @") WHERE UserID='{UserID}' EntryDate BETwEEN @TIMEFRAME_oldest AND @TIMEFRAME_newest";
+                    query += @") WHERE UserID='{UserID}' EntryDate BETWEEN @TIMEFRAME_oldest AND @TIMEFRAME_newest";
                     cmd.Parameters.AddWithValue("@TIMEFRAME_oldest", Date_furthestOut);
                     cmd.Parameters.AddWithValue("@TIMEFRAME_newest", Date_mostRecent);
                     break;
-                case month:
+
+                case "month":
 
                     Date_mostRecent = DateTime.Today.ToString("yyyy-MM-dd");
                     Date_furthestOut = DateTime.Today.AddMonths(-1).ToString("yyyy-MM-dd");
 
-                    query =+ @") WHERE UserID='{UserID}' AND EntryDate BETwEEN @TIMEFRAME_oldest AND @TIMEFRAME_newest";
+                    query += @") WHERE UserID='{UserID}' AND EntryDate BETwEEN @TIMEFRAME_oldest AND @TIMEFRAME_newest";
                     cmd.Parameters.AddWithValue("@TIMEFRAME_oldest", Date_furthestOut);
                     cmd.Parameters.AddWithValue("@TIMEFRAME_newest", Date_mostRecent);
                     break;
-                case user_start:
-                    query =+ @") WHERE UserID='{UserID}';"
+
+                case "user_start":
+                    query += @") WHERE UserID='{UserID}';";
                     break;
             }
 
@@ -112,7 +116,8 @@ namespace Nutrilingo
             {  
                 var DblKeyData = new Dictionary<string, Dictionary<string, decimal>>();
 
-                List<string> ConList = new List<string>();
+                //Appears to be a unused list I added, not sure why
+                //List<string> ConList = new List<string>();
 
                 connection.Open();
                 
@@ -132,67 +137,34 @@ namespace Nutrilingo
             catch (SqlException ex)
             {
                 MessageBox.Show("Error Generated. Details: " + ex.ToString());
+                return null;
             }
             finally
             {
                 connection.Close();
             }
 
-
-
-            //Customer_names = ConList.ToArray();
-            
-            // Query will return entry id, entry name of nutrient, and array of decimal elements
-
-
-            //setDatabase($"Data Source={ActiveUser_Conn_Const["DS"]};Initial Catalog={ActiveUser_Conn_Const["Database"]};User Id={ActiveUser_Conn_Const["UserName"]};Password={ActiveUser_Conn_Const["Password"]};Integrated Security=False");
-            //SqlDataAdapter da_customers = new SqlDataAdapter(DB_cmd, DBconn_inUse);
-            //da_customers.Fill(DB_Set);
-            //List<string> ConList = new List<string>();
-            //foreach (DataRow row in DB_Set.Tables[0].Rows)
-            //{
-            //    ConList.Add(row[ShowRow].ToString());
-            //}
-            //Customer_names = ConList.ToArray();
-            //Customer_numb = ConList.Count();
-
-            //Planning to return nested dictionaries as output of method
-            //new Dictionary<string, Dictionary<string, string>>
-            //    {
-            //        {
-            //          "01-20-2022",
-            //          new Dictionary<string, decimal>
-            //{
-            //    {"carbs", "1.2"},
-            //    {"fats", "5.0"},
-            //    {"proteins", "2.3"},
-            //    {"alcohols", "2.0"}
-            //      }
-            //  },
-            //{
-            //"01-21-2022",
-            //new Dictionary<string, decimal>
-            //{
-            //    {"carbs", "2.2"},
-            //   {"fats", "4.0"},
-            //    {"proteins", "5.2"},
-            //   {"alcohols", "1.0"}
-            //      }
-            //}
-
-
         }
 
+        //public void ReadIntDict(IDataRecord dataRecord, Dictionary<string, Dictionary<string, decimal>> NestDict, string[] proteinType)
         public void ReadIntDict(IDataRecord dataRecord, Dictionary<string, Dictionary<string, decimal>> NestDict)
         {
-            if (NestDict.ContainsKey(dataRecord[0]))
+                
+
+            if (NestDict.ContainsKey(dataRecord[0].ToString()))
             {
-                NestDict[dataRecord[0]].Add(dataRecord[1].ToString(), dataRecord[2]);
+                // for (int i = 0; i >=  proteinType.Length() - 1; i++)
+                // {
+
+                NestDict[dataRecord[0].ToString()].Add(dataRecord[1].ToString(), dataRecord.GetDecimal(2));
+                //NestDict[dataRecord["EntryDate"].ToString()].Add(proteinType(i), dataRecord.GetDecimal($"{0}", proteinType(i)));
+                // Future enhancement: if multiple entries in the same day exist for the same protein type, add the decimal value to the existing value
+                // }
             }
             else
             {
                 NestDict.Add(dataRecord[0].ToString(), new Dictionary<string, decimal>());
-                NestDict[dataRecord[0]].Add(dataRecord[1].ToString(), dataRecord[2]);
+                NestDict[dataRecord[0].ToString()].Add(dataRecord[1].ToString(), dataRecord.GetDecimal(2));
             }
         }
 
