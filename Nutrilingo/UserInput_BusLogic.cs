@@ -94,6 +94,7 @@ namespace Nutrilingo
                     cmd.Parameters.AddWithValue("@TIMEFRAME_oldest", Date_furthestOut);
                     cmd.Parameters.AddWithValue("@TIMEFRAME_newest", Date_mostRecent);
                     break;
+
                 case "month":
 
                     Date_mostRecent = DateTime.Today.ToString("yyyy-MM-dd");
@@ -103,6 +104,7 @@ namespace Nutrilingo
                     cmd.Parameters.AddWithValue("@TIMEFRAME_oldest", Date_furthestOut);
                     cmd.Parameters.AddWithValue("@TIMEFRAME_newest", Date_mostRecent);
                     break;
+
                 case "user_start":
                     query += @") WHERE UserID='{UserID}';";
                     break;
@@ -144,14 +146,20 @@ namespace Nutrilingo
 
         }
 
+        //public void ReadIntDict(IDataRecord dataRecord, Dictionary<string, Dictionary<string, decimal>> NestDict, string[] proteinType)
         public void ReadIntDict(IDataRecord dataRecord, Dictionary<string, Dictionary<string, decimal>> NestDict)
         {
                 
 
             if (NestDict.ContainsKey(dataRecord[0].ToString()))
             {
+                // for (int i = 0; i >=  proteinType.Length() - 1; i++)
+                // {
 
                 NestDict[dataRecord[0].ToString()].Add(dataRecord[1].ToString(), dataRecord.GetDecimal(2));
+                //NestDict[dataRecord["EntryDate"].ToString()].Add(proteinType(i), dataRecord.GetDecimal($"{0}", proteinType(i)));
+                // Future enhancement: if multiple entries in the same day exist for the same protein type, add the decimal value to the existing value
+                // }
             }
             else
             {

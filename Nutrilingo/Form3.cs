@@ -27,16 +27,17 @@ namespace Nutrilingo
         private void weeklyBtn_Click(object sender, EventArgs e)
         {
             string UserID = "1";
-            string timeframe = "month";
+            string timeframe = "week";
             string[] Nutrient_Type = { "carbs", "fats", "proteins", "alcohols" };
             var DblKeyData = new Dictionary<string, Dictionary<string, decimal>>();
 
             UserInput_BusLogic Entry_obj = new UserInput_BusLogic();
             DblKeyData = Entry_obj.UserData_Timeframe_DataPull(UserID, timeframe, Nutrient_Type);
 
-            //showWeeklyStats(DblKeyData);
+            //showStats(DblKeyData,timeframe);
             showWeeklyStats();
         }
+
         private void monthlyBtn_Click(object sender, EventArgs e)
         {
             string UserID = "1";
@@ -47,7 +48,7 @@ namespace Nutrilingo
             UserInput_BusLogic Entry_obj = new UserInput_BusLogic();
             DblKeyData = Entry_obj.UserData_Timeframe_DataPull(UserID, timeframe, Nutrient_Type);
 
-            //showMonthlyStats(DblKeyData);
+            //showStats(DblKeyData,timeframe);
             showMonthlyStats();
         }
 
@@ -57,6 +58,68 @@ namespace Nutrilingo
             this.Hide();
             MenuForm.Show();
         }
+
+
+        private void showStats(Dictionary<string, Dictionary<string, decimal>> listDataSource, string Time_Period)
+        {
+
+            switch (Time_Period)
+            {
+                case "week":
+                    chart.Text = "Weekly Statistics";
+                    break;
+
+                case "month":
+                    chart.Text = "Monthly Statistics";
+                    break;
+
+            }
+
+            string DictStartDate = listDataSource.Keys.First();
+            string DictEndDate = listDataSource.Keys.Last();
+
+            DateTime minDate = DateTime.Parse(DictStartDate);
+            DateTime maxDate = DateTime.Parse(DictEndDate);
+
+
+            var objChart = chart.ChartAreas[0];
+            objChart.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Days;
+            objChart.AxisX.Minimum = minDate.ToOADate();
+            objChart.AxisX.Maximum = maxDate.ToOADate();
+
+            objChart.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            objChart.AxisY.Minimum = 0;
+            objChart.AxisY.Maximum = 100;
+
+            Random random = new Random();
+            chart.Series.Clear();
+
+            foreach (var date in listDataSource)
+            {
+                string current_key = date.Key;
+                Dictionary<string, decimal> innerDict = date.Value;
+
+
+                foreach (var carb_kv in innerDict)
+                {
+                    string CarbType = carb_kv.Key;
+                    decimal CarbAmount = carb_kv.Value;
+
+                    chart.Series.Add(CarbType);
+                    chart.Series.Add(CarbType);
+                    chart.Series[CarbType].Color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+                    chart.Series[CarbType].Legend = "Legend1";
+                    chart.Series[CarbType].ChartArea = "ChartArea1";
+                    chart.Series[CarbType].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+
+                    chart.Series[CarbType].Points.AddXY(current_key, CarbAmount);
+
+                }
+
+            }
+        }
+
+
         private void showWeeklyStats()
         {
             chart.Text = "Weekly Statistics";
@@ -101,6 +164,9 @@ namespace Nutrilingo
                 }
             }
         }
+
+
+
         private void showMonthlyStats()
         {
             chart.Text = "Monthly Statistics";
