@@ -26,10 +26,28 @@ namespace Nutrilingo
         }
         private void weeklyBtn_Click(object sender, EventArgs e)
         {
+            string UserID = "1";
+            string timeframe = "month";
+            string[] Nutrient_Type = { "carbs", "fats", "proteins", "alcohols" };
+            var DblKeyData = new Dictionary<string, Dictionary<string, decimal>>();
+
+            UserInput_BusLogic Entry_obj = new UserInput_BusLogic();
+            DblKeyData = Entry_obj.UserData_Timeframe_DataPull(UserID, timeframe, Nutrient_Type);
+
+            //showWeeklyStats(DblKeyData);
             showWeeklyStats();
         }
         private void monthlyBtn_Click(object sender, EventArgs e)
         {
+            string UserID = "1";
+            string timeframe = "month";
+            string[] Nutrient_Type = { "carbs", "fats", "proteins", "alcohols" };
+            var DblKeyData = new Dictionary<string, Dictionary<string, decimal>>();
+
+            UserInput_BusLogic Entry_obj = new UserInput_BusLogic();
+            DblKeyData = Entry_obj.UserData_Timeframe_DataPull(UserID, timeframe, Nutrient_Type);
+
+            //showMonthlyStats(DblKeyData);
             showMonthlyStats();
         }
 
